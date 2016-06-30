@@ -21,14 +21,8 @@ static void battery_handler(BatteryChargeState new_state) {
 static void bt_handler(bool connected) {
   // Show current connection state
   if (connected) {
-    text_layer_set_text(s_bluetooth_layer, "19485e21    device");
+    text_layer_set_text(s_bluetooth_layer, "012d8841    device");
   } else {
-    static const uint32_t segments[] = { 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100 };
-    VibePattern pat = {
-      .durations = segments,
-      .num_segments = ARRAY_LENGTH(segments),
-    };
-    vibes_enqueue_custom_pattern(pat);
     text_layer_set_text(s_bluetooth_layer, " ");
   }
 }
