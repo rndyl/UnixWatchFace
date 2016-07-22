@@ -14,7 +14,7 @@ function locationSuccess(pos) {
       pos.coords.latitude + '&lon=' + pos.coords.longitude;
 
   // Send request to OpenWeatherMap
-  xhrRequest(url, 'GET', 
+  xhrRequest(url, 'GET',
     function(responseText) {
       // responseText contains a JSON object with weather info
       var json = JSON.parse(responseText);
@@ -24,9 +24,9 @@ function locationSuccess(pos) {
       console.log('Temperature is ' + temperature);
 
       // Conditions
-      var conditions = json.weather[0].main;      
+      var conditions = json.weather[0].main;
       console.log('Conditions are ' + conditions);
-      
+
       // Assemble dictionary using our keys
       var dictionary = {
         'KEY_TEMPERATURE': temperature,
@@ -42,7 +42,7 @@ function locationSuccess(pos) {
           console.log('Error sending weather info to Pebble!');
         }
       );
-    }      
+    }
   );
 }
 **/
@@ -52,9 +52,9 @@ function locationSuccess(pos) {
   // Construct URL
   var urlwoeid = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20geo.placefinder%20where%20text%3D%22' +
 	pos.coords.latitude + '%2C' + pos.coords.longitude + '%22%20and%20gflags%3D%22R%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys';
-	
+
 	// Send request to Yahoo cause they fucking suck balls
-  xhrRequest(urlwoeid, 'GET', 
+  xhrRequest(urlwoeid, 'GET',
     function(responseTextwoeid) {
       // responseTextwoeid contains a JSON object with woeid info
       var jsonwoeid = JSON.parse(responseTextwoeid);
@@ -62,7 +62,7 @@ function locationSuccess(pos) {
       //parse woeid and push to console
       var woeid = jsonwoeid.results.Result.woeid;
       console.log('Yahoos bullshit is ' + woeid);
-      
+
       // Assemble dictionary using our keys
       var dictionary = {
         'KEY_WOEID': woeid,
@@ -77,7 +77,7 @@ function locationSuccess(pos) {
           console.log('Yahoos being a fucking piece of shit right now');
         }
       );
-    }      
+    }
   );
 }
 **/
@@ -88,19 +88,19 @@ function locationSuccess(pos) {
       pos.coords.latitude + '%2C' + pos.coords.longitude + ')%22)%20AND%20u%3D%27c%27&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys';
 
   // Send request to Yahoos bullshit
-  xhrRequest(url, 'GET', 
+  xhrRequest(url, 'GET',
     function(responseText) {
       // responseText contains a JSON object with weather info
       var json = JSON.parse(responseText);
 
       // Temperature in Kelvin requires adjustment
-      var temperature = Math.round(json.query.results.channel.item.condition.temp);
+      var temperature = Math.round(json.query.results.channel.item.condition.temp.);
       console.log('Temperature is ' + temperature);
 
       // Conditions
-      var conditions = json.query.results.channel.item.condition.text;      
+      var conditions = json.query.results.channel.item.condition.text;
       console.log('Conditions are ' + conditions);
-      
+
       // Assemble dictionary using our keys
       var dictionary = {
         'KEY_TEMPERATURE': temperature,
@@ -116,7 +116,7 @@ function locationSuccess(pos) {
           console.log('Error sending weather info to Pebble!');
         }
       );
-    }      
+    }
   );
 }
 
@@ -133,7 +133,7 @@ function getWeather() {
 }
 
 // Listen for when the watchface is opened
-Pebble.addEventListener('ready', 
+Pebble.addEventListener('ready',
   function(e) {
     console.log('PebbleKit JS ready!');
 
@@ -147,5 +147,5 @@ Pebble.addEventListener('appmessage',
   function(e) {
     console.log('AppMessage received!');
     getWeather();
-  }                     
+  }
 );
